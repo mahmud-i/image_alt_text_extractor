@@ -158,7 +158,8 @@ def open_prod_page(context, url):
     prod_page.on("response", lambda response: log_response(response, url))
     prod_instance = PageInstance(prod_page)
     prod_instance.goto(url)
-    yield prod_instance
+    page_type = prod_instance.get_page_type()
+    yield prod_instance, page_type
     prod_instance.close_page()
 
 @pytest.fixture(scope="function")
@@ -168,5 +169,6 @@ def open_stage_page(context, url, prod_domain_url, stage_domain_url):
     stage_page.on("response", lambda response: log_response(response, stage_url))
     stage_instance = PageInstance(stage_page)
     stage_instance.goto(stage_url)
-    yield stage_instance
+    page_type = stage_instance.get_page_type()
+    yield stage_instance, page_type
     stage_instance.close_page()

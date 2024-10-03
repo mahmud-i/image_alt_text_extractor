@@ -25,7 +25,9 @@ def test_images(open_prod_page, open_stage_page, url, prod_domain_url, stage_dom
         stage_url = url.replace(prod_domain_url, stage_domain_url)
 
         def prod_image_data():
-            prod_instance = open_prod_page
+            prod_instance, page_type = open_prod_page
+            if page_type in ['productListing', 'articleListing']:
+                prod_instance.expand_list()
             prod_image = prod_instance.get_images_data()
             prod_instance.close_page()
             print(f"Prod image data: {prod_image}\n")
@@ -41,7 +43,9 @@ def test_images(open_prod_page, open_stage_page, url, prod_domain_url, stage_dom
             return prod_image
 
         def stage_image_data():
-            stage_instance = open_stage_page
+            stage_instance, page_type = open_stage_page
+            if page_type in ['productListing', 'articleListing']:
+                stage_instance.expand_list()
             stage_image = stage_instance.get_images_data()
             stage_instance.close_page()
             print(f"Stage image data: {stage_image}\n")

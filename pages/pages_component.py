@@ -159,3 +159,28 @@ class PageInstance:
                     return None
         except Exception as e:
             print(f"Error processing: {e}")
+
+
+    def expand_list(self):
+        try:
+            # Loop until the "See Less" button is visible
+            while True:
+                self.wait_for_time(1000)
+                # Check if the "See Less" button is visible
+                see_less_visible = self.page.is_visible('button:has-text("SEE LESS")')
+
+                if see_less_visible:
+                    print('See Less button is visible. Stopping load more clicks.')
+                    break
+
+                # Check if the "Load More" button is visible and click it
+                load_more_visible = self.page.is_visible('button:has-text("LOAD MORE")')
+                if load_more_visible:
+                    self.page.click('button:has-text("LOAD MORE")')
+                    print('Clicked Load More button.')
+                else:
+                    print('Load More button is not visible anymore.')
+                    break
+
+        except Exception as e:
+            print(f"Error processing: {e}")
